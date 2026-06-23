@@ -177,16 +177,13 @@ export default function App() {
       {/* 3. HERO SECTION */}
       <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         {/* Background Cinematic Video Loop */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            <source src="/Initial_Scene_-_2026-06-23_202606231204.mp4" type="video/mp4" />
-          </video>
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <iframe
+            src="https://www.youtube.com/embed/SY81p7kTOP8?autoplay=1&mute=1&loop=1&playlist=SY81p7kTOP8&controls=0&showinfo=0&rel=0&playsinline=1&iv_load_policy=3&disablekb=1&enablejsapi=1"
+            className="w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            title="Robo Wars 2026 Background Trailer"
+          />
           {/* Dark cinematic overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#050816]/75 via-[#050816]/65 to-[#050816]" />
           <div className="absolute inset-0 bg-[#050816]/20 backdrop-blur-[1px]" />
@@ -886,11 +883,12 @@ export default function App() {
                 <X className="w-4 h-4" />
               </button>
               
-              <video
-                src="/Initial_Scene_-_2026-06-23_202606231204.mp4"
-                controls
-                autoPlay
-                className="w-full h-full object-cover"
+              <iframe
+                src="https://www.youtube.com/embed/SY81p7kTOP8?autoplay=1&controls=1&rel=0&playsinline=1"
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                title="Robo Wars 2026 Trailer"
               />
             </motion.div>
           </motion.div>
