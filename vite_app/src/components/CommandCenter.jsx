@@ -159,6 +159,24 @@ export default function CommandCenter() {
             Secure algorithmic shell monitoring robotic sub-system decisions and neural strategy routing models during active battle drills.
           </p>
 
+          {/* Audio Equalizer visualizer */}
+          <div className="flex items-end justify-between h-12 bg-slate-950/60 rounded border border-slate-800/80 p-2.5 mb-4 relative overflow-hidden">
+            <div className="absolute inset-0 cyber-grid-fine opacity-10" />
+            <div className="absolute top-1 left-2 text-[7px] font-mono text-[#7b61ff]/60 tracking-wider">CYBORG_VOICE_OUT // ANALYZING_WAV</div>
+            {Array.from({ length: 28 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="w-[3px] bg-[#7b61ff] rounded-t-sm"
+                style={{
+                  height: '25%',
+                  backgroundColor: idx % 4 === 0 ? '#00ffff' : idx % 2 === 0 ? '#7b61ff' : '#ff4d00',
+                  animation: `eq-bar-anim ${0.6 + (idx % 5) * 0.15}s ease-in-out infinite alternate`,
+                  animationDelay: `${idx * 0.04}s`
+                }}
+              />
+            ))}
+          </div>
+
           {/* Terminal Console */}
           <div ref={consoleRef} className="w-full h-36 bg-slate-950/90 rounded border border-slate-800/80 p-3 font-mono text-[10px] text-[#b8c1cc] overflow-y-auto flex flex-col gap-1.5 scrollbar-thin select-none">
             {logs.map((log, index) => (
@@ -230,7 +248,45 @@ export default function CommandCenter() {
               </div>
             </div>
           </div>
+
+          {/* Sonar Radar sweep panel */}
+          <div className="mt-4 pt-4 border-t border-slate-800/60 flex items-center gap-4">
+            {/* Circular Radar Scan */}
+            <div className="relative w-20 h-20 rounded-full border border-[#00ffff]/20 bg-slate-950/70 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <div className="absolute inset-0 cyber-grid-fine opacity-15" />
+              {/* Concentric rings */}
+              <div className="absolute inset-3 border border-dashed border-[#00ffff]/15 rounded-full" />
+              <div className="absolute inset-6 border border-dotted border-[#00ffff]/25 rounded-full" />
+              {/* Scanning sweep */}
+              <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-gradient-to-t from-transparent via-[#00ffff]/45 to-[#00ffff] origin-bottom -translate-x-1/2 animate-hud-rotate" />
+              {/* Flickering blips */}
+              <div className="absolute w-1.5 h-1.5 rounded-full bg-[#00ffff] shadow-[0_0_6px_#00ffff] animate-pulse" style={{ top: '25%', left: '30%' }} />
+              <div className="absolute w-1.5 h-1.5 rounded-full bg-[#7b61ff] shadow-[0_0_6px_#7b61ff] animate-ping" style={{ bottom: '30%', right: '25%', animationDuration: '3s' }} />
+            </div>
+
+            {/* Sonar Readout */}
+            <div className="flex-1 font-mono text-[8px] text-[#b8c1cc]/60 flex flex-col gap-1 leading-normal">
+              <div className="text-[#00ffff] font-bold tracking-widest uppercase">AI_ARENA_SCANNER V1.0</div>
+              <div className="flex justify-between border-b border-slate-900 pb-0.5">
+                <span>[TGT_01] TITAN_X</span> <span className="text-[#00ffff] font-bold">LOCK_OK</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-900 pb-0.5">
+                <span>[TGT_02] CYBER_PHANTOM</span> <span className="text-[#7b61ff]">STEALTH_INDEX_99%</span>
+              </div>
+              <div className="flex justify-between">
+                <span>[TGT_03] STEEL_REAPER</span> <span className="text-amber-400">ALTITUDE_15M</span>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* CSS Keyframes for Equalizer */}
+        <style>{`
+          @keyframes eq-bar-anim {
+            0% { height: 15%; }
+            100% { height: 90%; }
+          }
+        `}</style>
 
         {/* Dashboard Feed Controls */}
         <div className="mt-4 pt-4 border-t border-slate-800/60 flex flex-col gap-2.5">

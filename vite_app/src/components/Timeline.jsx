@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Calendar, Cpu, Trophy, Swords, Zap, Users } from "lucide-react";
 
 const TIMELINE_STEPS = [
@@ -69,6 +69,8 @@ export default function Timeline() {
     restDelta: 0.001,
   });
 
+  const indicatorTop = useTransform(scaleY, [0, 1], ["0%", "100%"]);
+
   return (
     <div ref={containerRef} className="relative w-full max-w-4xl mx-auto py-12 px-4 md:px-0">
       {/* Central Progress Line */}
@@ -76,6 +78,14 @@ export default function Timeline() {
         <motion.div
           className="absolute top-0 bottom-0 left-0 right-0 origin-top bg-gradient-to-b from-[#00ffff] via-[#7b61ff] to-[#ffb700]"
           style={{ scaleY }}
+        />
+        {/* Glowing circuit traveler signal dot */}
+        <motion.div
+          className="absolute w-3 h-3 rounded-full bg-[#00ffff] -translate-x-1/2 z-20 pointer-events-none"
+          style={{
+            top: indicatorTop,
+            boxShadow: "0 0 8px #00ffff, 0 0 16px #00ffff",
+          }}
         />
       </div>
 
@@ -128,10 +138,10 @@ export default function Timeline() {
                       </h4>
                     </div>
                     <div 
-                      className="p-2 rounded border border-slate-800 bg-slate-900/60"
+                      className="p-2 rounded border border-slate-800 bg-slate-900/60 group-hover:border-[#00ffff]/30 group-hover:shadow-[0_0_8px_rgba(0,255,255,0.15)] transition-all duration-300"
                       style={{ color: step.color }}
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-4 h-4 group-hover:rotate-[360deg] transition-transform duration-700 ease-out" />
                     </div>
                   </div>
 

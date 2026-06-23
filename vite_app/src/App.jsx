@@ -82,9 +82,14 @@ export default function App() {
                 <Swords className="w-4 h-4 text-[#00ffff] group-hover:rotate-12 transition-transform" />
               </div>
             </div>
-            <span className="font-orbitron font-black tracking-wider text-sm md:text-base text-white">
-              ROBO<span className="text-[#00ffff]">WARS</span>
-            </span>
+            <div className="flex flex-col">
+              <span className="font-rajdhani text-[8px] tracking-[0.22em] font-semibold text-[#7b61ff] uppercase -mb-1">
+                TECHFEST IIT BOMBAY
+              </span>
+              <span className="font-orbitron font-black tracking-wider text-sm md:text-base text-white">
+                ROBO<span className="text-[#00ffff]">WARS</span>
+              </span>
+            </div>
           </a>
 
           {/* Desktop Navigation Links */}
@@ -179,7 +184,7 @@ export default function App() {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#00ffff]/20 bg-[#00ffff]/5 font-rajdhani text-[11px] font-bold tracking-[0.2em] text-[#00ffff] uppercase mb-8 shadow-[0_0_15px_rgba(0,255,255,0.08)]"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#00ffff] animate-pulse" />
-            India's Largest Robotics Championship
+            TECHFEST IIT BOMBAY PRESENTS ROBOWARS
           </motion.div>
 
           {/* Main Title Heading */}
@@ -427,6 +432,34 @@ export default function App() {
                     strokeWidth="0.75"
                   />
 
+                  {/* Dynamic Sonar / Laser Scanning Line */}
+                  <line
+                    x1="50"
+                    y1="50"
+                    x2="50"
+                    y2="16"
+                    stroke="#00ffff"
+                    strokeWidth="0.5"
+                    opacity="0.65"
+                    className="origin-[50px_50px] animate-[hud-rotate_6s_linear_infinite]"
+                  />
+
+                  {/* Radar grid coordinates lines */}
+                  <line x1="50" y1="16" x2="50" y2="84" stroke="rgba(0,255,255,0.06)" strokeWidth="0.5" />
+                  <line x1="16" y1="50" x2="84" y2="50" stroke="rgba(0,255,255,0.06)" strokeWidth="0.5" />
+
+                  {/* Animated rotating interior tracer circle */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="25"
+                    fill="none"
+                    stroke="rgba(123, 97, 255, 0.12)"
+                    strokeWidth="0.5"
+                    strokeDasharray="4 6"
+                    className="animate-[hud-rotate_12s_linear_infinite_reverse]"
+                  />
+
                   {/* Active Arena Area Circle */}
                   <circle
                     cx="50"
@@ -473,7 +506,7 @@ export default function App() {
                   ].map((node, i) => (
                     <g
                       key={i}
-                      className="cursor-pointer transition-all duration-300"
+                      className="cursor-pointer transition-all duration-300 animate-[pulse_2s_infinite]"
                       onClick={() => setSelectedArenaPart("hazards")}
                     >
                       <circle
@@ -761,12 +794,12 @@ export default function App() {
         <div className="absolute -right-64 top-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-[#00ffff]/10 blur-[120px]" />
 
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-          <span className="font-rajdhani text-xs font-bold tracking-[0.3em] text-[#00ffff] uppercase">ARE YOU READY FOR THE CLASH?</span>
+          <span className="font-rajdhani text-xs font-bold tracking-[0.3em] text-[#00ffff] uppercase">TECHFEST, IIT BOMBAY</span>
           <h2 className="font-orbitron font-black text-3xl md:text-6xl text-white tracking-tight mt-4 leading-tight uppercase">
             ARE YOU READY FOR <br />ROBO WARS 2026?
           </h2>
           <p className="max-w-2xl font-inter text-xs md:text-sm text-[#b8c1cc] leading-relaxed mt-6 mb-10">
-            Join the next generation of robotics innovators and compete in India's most advanced robotics championship. Create. Compete. Dominate.
+            Join the next generation of robotics innovators and compete in India's most advanced robotics championship at Techfest, IIT Bombay. Create. Compete. Dominate.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -798,7 +831,7 @@ export default function App() {
       {/* 13. FOOTER */}
       <footer className="bg-[#050816] border-t border-slate-950 py-12 relative z-10 text-center">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 font-rajdhani text-xs tracking-[0.2em] font-semibold text-[#b8c1cc]/50">
-          <div>© 2026 ROBO WARS INC. ALL SECURITY CREDENTIALS SECURED.</div>
+          <div>© 2026 TECHFEST, IIT BOMBAY. ROBOWARS DIVISION. ALL RIGHTS RESERVED.</div>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">OS MODULE</a>
             <a href="#" className="hover:text-white transition-colors">SECURITY KEYS</a>
@@ -952,7 +985,7 @@ export default function App() {
                     <div className="absolute right-3 top-3 w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     
                     <div className="border-b border-slate-800/80 pb-2 mb-3 flex justify-between text-[8px] text-[#b8c1cc]/40">
-                      <span>ROBO WARS SECURITY DEPT</span>
+                      <span>TECHFEST IIT BOMBAY // ROBOWARS</span>
                       <span>SECURE LOG: ON</span>
                     </div>
 
