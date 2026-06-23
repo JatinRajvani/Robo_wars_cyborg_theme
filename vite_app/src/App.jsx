@@ -22,9 +22,12 @@ export default function App() {
     leaderName: "",
     college: "",
     category: "Robot Combat Arena",
+    selectedRobot: "titan_x",
   });
   const [isRegistered, setIsRegistered] = useState(false);
   const [generatedPassId, setGeneratedPassId] = useState("");
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanProgress, setScanProgress] = useState(0);
 
   const arenaDetails = {
     center: {
@@ -61,10 +64,22 @@ export default function App() {
     e.preventDefault();
     if (!formData.teamName || !formData.leaderName || !formData.college) return;
     
-    // Simulate generation of register code
+    // Start holographic scanning sequence
     const uniqueId = `RW-${Math.floor(Math.random() * 90000 + 10000)}-${formData.category.slice(0, 3).toUpperCase()}`;
     setGeneratedPassId(uniqueId);
-    setIsRegistered(true);
+    setIsScanning(true);
+    setScanProgress(0);
+    
+    let currentProgress = 0;
+    const interval = setInterval(() => {
+      currentProgress += 5;
+      setScanProgress(currentProgress);
+      if (currentProgress >= 100) {
+        clearInterval(interval);
+        setIsScanning(false);
+        setIsRegistered(true);
+      }
+    }, 120);
   };
 
   return (
@@ -102,12 +117,13 @@ export default function App() {
             <a href="#stats" className="hover:text-white transition-colors uppercase">Stats</a>
           </nav>
 
-          {/* Register CTA Button */}
           <div className="hidden lg:flex items-center gap-4">
             <button
               onClick={() => {
                 setIsRegistered(false);
-                setFormData({ teamName: "", leaderName: "", college: "", category: "Robot Combat Arena" });
+                setIsScanning(false);
+                setScanProgress(0);
+                setFormData({ teamName: "", leaderName: "", college: "", category: "Robot Combat Arena", selectedRobot: "titan_x" });
                 setRegisterOpen(true);
               }}
               className="px-5 py-2 font-rajdhani text-xs font-bold tracking-widest text-[#050816] bg-[#00ffff] rounded shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:shadow-[0_0_25px_rgba(0,255,255,0.8)] transition-all duration-300 border border-[#00ffff] hover:scale-105 active:scale-95 cursor-pointer"
@@ -143,6 +159,10 @@ export default function App() {
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
+                  setIsRegistered(false);
+                  setIsScanning(false);
+                  setScanProgress(0);
+                  setFormData({ teamName: "", leaderName: "", college: "", category: "Robot Combat Arena", selectedRobot: "titan_x" });
                   setRegisterOpen(true);
                 }}
                 className="w-full py-3 text-center bg-[#00ffff] text-[#050816] font-bold rounded shadow-lg"
@@ -227,7 +247,9 @@ export default function App() {
             <button
               onClick={() => {
                 setIsRegistered(false);
-                setFormData({ teamName: "", leaderName: "", college: "", category: "Robot Combat Arena" });
+                setIsScanning(false);
+                setScanProgress(0);
+                setFormData({ teamName: "", leaderName: "", college: "", category: "Robot Combat Arena", selectedRobot: "titan_x" });
                 setRegisterOpen(true);
               }}
               className="px-8 py-3.5 bg-gradient-to-r from-[#00ffff] to-[#7b61ff] text-[#050816] font-rajdhani font-bold text-xs tracking-widest rounded shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:shadow-[0_0_35px_rgba(123,97,255,0.7)] transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 uppercase cursor-pointer"
@@ -806,7 +828,9 @@ export default function App() {
             <button
               onClick={() => {
                 setIsRegistered(false);
-                setFormData({ teamName: "", leaderName: "", college: "", category: "Robot Combat Arena" });
+                setIsScanning(false);
+                setScanProgress(0);
+                setFormData({ teamName: "", leaderName: "", college: "", category: "Robot Combat Arena", selectedRobot: "titan_x" });
                 setRegisterOpen(true);
               }}
               className="px-8 py-4 bg-[#00ffff] text-[#050816] font-rajdhani font-bold text-xs tracking-widest rounded shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:shadow-[0_0_35px_rgba(0,255,255,0.8)] hover:scale-105 active:scale-95 transition-all duration-300 uppercase cursor-pointer"
@@ -883,22 +907,24 @@ export default function App() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto"
           >
             <motion.div
+              layout
               initial={{ scale: 0.9, y: 30 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 30 }}
-              className="w-full max-w-lg bg-[#0a0f1c]/95 border border-slate-800 p-6 rounded-xl relative shadow-2xl overflow-hidden clip-hud-card"
+              className={`w-full ${isRegistered ? 'max-w-2xl' : 'max-w-lg'} bg-[#0a0f1c]/95 border border-slate-800 p-6 rounded-xl relative shadow-2xl overflow-hidden clip-hud-card transition-all duration-300`}
             >
               {/* Top border indicator line */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00ffff] to-[#7b61ff]" />
 
               <button
                 onClick={() => setRegisterOpen(false)}
-                className="absolute top-4 right-4 p-2 bg-slate-900 border border-slate-800 rounded-full text-[#b8c1cc] hover:text-white transition-colors cursor-pointer"
+                className="absolute top-4 right-4 p-2 bg-slate-900 border border-slate-800 rounded-full text-[#b8c1cc] hover:text-white transition-colors cursor-pointer z-40"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
 
-              {!isRegistered ? (
+              {/* STAGE 1: Form Fill */}
+              {!isRegistered && !isScanning && (
                 <>
                   <div className="mb-6">
                     <span className="font-rajdhani text-[10px] font-bold tracking-[0.2em] text-[#00ffff] uppercase">ARENA SIGN-UP PROTOCOL</span>
@@ -960,6 +986,40 @@ export default function App() {
                       </select>
                     </div>
 
+                    {/* SELECT MACHINE GRID */}
+                    <div className="flex flex-col gap-1.5">
+                      <label className="font-rajdhani text-xs font-bold text-[#b8c1cc]/70 tracking-wider">SELECT COMBAT MACHINE</label>
+                      <div className="grid grid-cols-2 gap-2 mt-1">
+                        {[
+                          { id: "titan_x", name: "Titan X", avatar: "/robots/titan_x.png" },
+                          { id: "cyber_phantom", name: "Phantom", avatar: "/robots/cyber_phantom.png" },
+                          { id: "inferno_mk_ii", name: "Inferno", avatar: "/robots/inferno_mk_ii.png" },
+                          { id: "steel_reaper", name: "Reaper", avatar: "/robots/steel_reaper.png" },
+                        ].map((robot) => {
+                          const isSelected = formData.selectedRobot === robot.id;
+                          return (
+                            <button
+                              key={robot.id}
+                              type="button"
+                              onClick={() => setFormData({ ...formData, selectedRobot: robot.id })}
+                              className={`p-2 rounded border flex items-center gap-2 text-left transition-all duration-200 cursor-pointer ${
+                                isSelected
+                                  ? "bg-[#00ffff]/10 border-[#00ffff] text-[#00ffff] font-bold shadow-[0_0_8px_rgba(0,255,255,0.2)]"
+                                  : "bg-slate-950/60 border-slate-800 text-[#b8c1cc]/60 hover:border-slate-700"
+                              }`}
+                            >
+                              <img 
+                                src={robot.avatar} 
+                                alt={robot.name} 
+                                className="w-8 h-8 object-cover rounded bg-slate-900 border border-slate-800 flex-shrink-0" 
+                              />
+                              <span className="font-rajdhani text-[10px] uppercase tracking-wider">{robot.name}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
                     <button
                       type="submit"
                       className="mt-4 w-full py-3.5 bg-gradient-to-r from-[#00ffff] to-[#7b61ff] text-[#050816] font-rajdhani font-black text-xs tracking-widest rounded shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(123,97,255,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 uppercase cursor-pointer"
@@ -968,76 +1028,182 @@ export default function App() {
                     </button>
                   </form>
                 </>
-              ) : (
-                <div className="flex flex-col items-center py-4 text-center">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500 flex items-center justify-center mb-4">
-                    <CheckCircle className="w-6 h-6 text-emerald-500" />
+              )}
+
+              {/* STAGE 2: Scanning Loading Animation */}
+              {isScanning && (
+                <div className="flex flex-col py-8 justify-center items-center text-center relative min-h-[300px]">
+                  {/* Glowing Laser Sweep Line */}
+                  <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none rounded-lg">
+                    <div className="w-full h-[2px] bg-[#00ffff] shadow-[0_0_10px_#00ffff] animate-scanline-move" />
                   </div>
 
-                  <span className="font-rajdhani text-[10px] font-bold tracking-[0.2em] text-[#00ffff] uppercase">ARENA ACCESS AUTHORIZED</span>
-                  <h3 className="font-orbitron font-black text-xl text-white tracking-wide mt-1">
-                    COMBAT PASS ISSUED
-                  </h3>
+                  {/* Wireframe Rotating Blueprint box */}
+                  <div className="relative w-32 h-32 mb-6 flex items-center justify-center border border-slate-800/80 bg-slate-950/65 rounded overflow-hidden shadow-inner">
+                    <div className="absolute inset-0 cyber-grid-fine opacity-20" />
+                    <img 
+                      src={`/robots/${formData.selectedRobot}.png`} 
+                      className="w-24 h-24 object-contain opacity-55 animate-pulse filter brightness-110 hue-rotate-[180deg]" 
+                    />
+                    {/* Diagnostic technical crosshairs */}
+                    <div className="absolute top-1 left-1 text-[6px] font-mono text-[#00ffff]/40">SYS_COMPILING_CAD</div>
+                    <div className="absolute bottom-1 right-1 text-[6px] font-mono text-[#00ffff]/40">{scanProgress}%</div>
+                  </div>
 
-                  {/* High-tech custom pass visual */}
-                  <div className="w-full mt-6 bg-[#050816] rounded border border-slate-800 p-4 font-mono text-left relative overflow-hidden">
-                    <div className="absolute inset-0 cyber-grid-fine opacity-10" />
-                    <div className="absolute right-3 top-3 w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    
-                    <div className="border-b border-slate-800/80 pb-2 mb-3 flex justify-between text-[8px] text-[#b8c1cc]/40">
-                      <span>TECHFEST IIT BOMBAY // ROBOWARS</span>
-                      <span>SECURE LOG: ON</span>
+                  <span className="font-rajdhani text-[10px] font-bold tracking-[0.2em] text-[#00ffff] uppercase animate-pulse">
+                    COMPILING MACHINE CREDENTIALS...
+                  </span>
+
+                  <h4 className="font-orbitron font-black text-base text-white tracking-widest mt-2">
+                    DECRYPTING PASS PROTOCOL
+                  </h4>
+
+                  {/* Progress bar */}
+                  <div className="w-full max-w-sm mt-6 h-1.5 bg-slate-950 rounded-full border border-slate-800 overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-[#00ffff] to-[#7b61ff] shadow-[0_0_8px_#00ffff] transition-all duration-100" 
+                      style={{ width: `${scanProgress}%` }}
+                    />
+                  </div>
+
+                  {/* Diagnostic status log text */}
+                  <div className="font-mono text-[8px] text-[#b8c1cc]/40 mt-3 h-4 tracking-wider uppercase">
+                    {scanProgress < 25 && ">>> BOOTING MACHINE LOCOMOTION PROTOCOLS..."}
+                    {scanProgress >= 25 && scanProgress < 50 && ">>> SYNCING WEAPON THERMAL FIELDS & STABILITY INTEGRATIONS..."}
+                    {scanProgress >= 50 && scanProgress < 75 && ">>> ESTABLISHING NEURAL UPLINK PROTOCOLS [APEX_OS_V9.4]..."}
+                    {scanProgress >= 75 && scanProgress < 100 && ">>> ESTABLISHING SECURE CONNECTION TO TECHFEST ARENA CORES..."}
+                    {scanProgress === 100 && ">>> SECURE ACCESS TICKET GENERATED SUCCESSFULLY!"}
+                  </div>
+                </div>
+              )}
+
+              {/* STAGE 3: Registration Pass Issued (with Shutter sliding doors open reveal animation) */}
+              {isRegistered && (
+                <div className="relative min-h-[380px] flex flex-col items-center py-4 justify-between">
+                  
+                  {/* Left Sliding mechanical shutter door */}
+                  <motion.div
+                    initial={{ x: 0 }}
+                    animate={{ x: "-100%" }}
+                    transition={{ delay: 0.7, duration: 0.7, ease: "easeInOut" }}
+                    className="absolute left-0 top-0 bottom-0 w-1/2 bg-[#050816] border-r border-[#00ffff]/20 z-30 flex items-center justify-end font-mono text-[8px] text-[#00ffff] pr-4 select-none uppercase tracking-widest"
+                  >
+                    SHUTTER_L // DOCK_OPEN
+                  </motion.div>
+
+                  {/* Right Sliding mechanical shutter door */}
+                  <motion.div
+                    initial={{ x: 0 }}
+                    animate={{ x: "100%" }}
+                    transition={{ delay: 0.7, duration: 0.7, ease: "easeInOut" }}
+                    className="absolute right-0 top-0 bottom-0 w-1/2 bg-[#050816] border-l border-[#00ffff]/20 z-30 flex items-center justify-start font-mono text-[8px] text-[#00ffff] pl-4 select-none uppercase tracking-widest"
+                  >
+                    SHUTTER_R // DOCK_OPEN
+                  </motion.div>
+
+                  {/* Main Ticket content reveals when shutters move away */}
+                  <motion.div
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.85, duration: 0.4 }}
+                    className="w-full flex flex-col items-center"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500 flex items-center justify-center mb-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-500" />
                     </div>
 
-                    <div className="flex flex-col gap-2 text-[10px]">
-                      <div>
-                        <span className="text-[#b8c1cc]/40">CALLSIGN:</span> <span className="text-white font-bold">{formData.teamName.toUpperCase()}</span>
-                      </div>
-                      <div>
-                        <span className="text-[#b8c1cc]/40">COMMANDER:</span> <span className="text-[#00ffff]">{formData.leaderName.toUpperCase()}</span>
-                      </div>
-                      <div>
-                        <span className="text-[#b8c1cc]/40">ACADEMY:</span> <span className="text-white">{formData.college.toUpperCase()}</span>
-                      </div>
-                      <div>
-                        <span className="text-[#b8c1cc]/40">DIVISION:</span> <span className="text-[#7b61ff] font-bold">{formData.category.toUpperCase()}</span>
-                      </div>
-                    </div>
+                    <span className="font-rajdhani text-[10px] font-bold tracking-[0.2em] text-[#00ffff] uppercase">ARENA ACCESS AUTHORIZED</span>
+                    <h3 className="font-orbitron font-black text-xl text-white tracking-wide mt-1">
+                      COMBAT PASS ISSUED
+                    </h3>
 
-                    <div className="border-t border-slate-800/80 pt-3 mt-4 flex items-center justify-between">
-                      <div>
-                        <div className="text-[7px] text-[#b8c1cc]/30">UNIQUE PASS ID</div>
-                        <div className="text-[10px] font-bold text-white tracking-wider mt-0.5">{generatedPassId}</div>
+                    {/* Widescreen Holographic Combat Pass keycard */}
+                    <div className="w-full mt-6 bg-[#050816]/90 rounded-lg border border-slate-800/80 p-4 font-mono text-left relative overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+                      <div className="absolute inset-0 cyber-grid-fine opacity-10 pointer-events-none" />
+                      <div className="absolute right-3 top-3 w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+
+                      {/* Left half: credentials */}
+                      <div className="md:col-span-8 flex flex-col justify-between gap-4">
+                        <div>
+                          <div className="border-b border-slate-800 pb-1.5 mb-2.5 flex justify-between text-[7px] text-[#b8c1cc]/30 tracking-widest uppercase">
+                            <span>TECHFEST IIT BOMBAY // ROBOWARS</span>
+                            <span>NODE://SECURE</span>
+                          </div>
+
+                          <div className="flex flex-col gap-2 text-[10px]">
+                            <div>
+                              <span className="text-[#b8c1cc]/40">CALLSIGN:</span> <span className="text-white font-bold tracking-wider">{formData.teamName.toUpperCase()}</span>
+                            </div>
+                            <div>
+                              <span className="text-[#b8c1cc]/40">COMMANDER:</span> <span className="text-[#00ffff] font-semibold">{formData.leaderName.toUpperCase()}</span>
+                            </div>
+                            <div>
+                              <span className="text-[#b8c1cc]/40">ACADEMY:</span> <span className="text-white">{formData.college.toUpperCase()}</span>
+                            </div>
+                            <div>
+                              <span className="text-[#b8c1cc]/40">DIVISION:</span> <span className="text-[#7b61ff] font-bold">{formData.category.toUpperCase()}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Pass ID & Barcode */}
+                        <div className="border-t border-slate-850 pt-2.5 mt-2 flex items-center justify-between">
+                          <div>
+                            <div className="text-[6px] text-[#b8c1cc]/30">UNIQUE PASS ID</div>
+                            <div className="text-[10px] font-bold text-white tracking-wider mt-0.5">{generatedPassId}</div>
+                          </div>
+                          {/* barcode */}
+                          <div className="flex flex-col gap-0.5">
+                            <div className="h-5 w-24 bg-slate-900 border border-slate-850 flex items-center justify-around px-2 opacity-50">
+                              {Array.from({ length: 16 }).map((_, idx) => (
+                                <div
+                                  key={idx}
+                                  className="h-full bg-[#00ffff]"
+                                  style={{ width: `${idx % 3 === 0 ? "3px" : "1px"}` }}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      {/* Mock barcode block */}
-                      <div className="flex flex-col gap-0.5">
-                        <div className="h-6 w-24 bg-slate-900 border border-slate-800 flex items-center justify-around px-2 opacity-60">
-                          {Array.from({ length: 16 }).map((_, idx) => (
-                            <div
-                              key={idx}
-                              className="h-full bg-[#00ffff]"
-                              style={{ width: `${idx % 3 === 0 ? "3px" : "1px"}` }}
-                            />
-                          ))}
+
+                      {/* Right half: Robot avatar portrait frame */}
+                      <div className="md:col-span-4 flex items-center justify-center p-2 rounded bg-slate-950/80 border border-slate-850 relative overflow-hidden min-h-[140px] md:min-h-0">
+                        {/* Shading grid overlay */}
+                        <div className="absolute inset-0 cyber-grid-fine opacity-20 pointer-events-none" />
+                        
+                        {/* Glowing hud reticle loops */}
+                        <div className="absolute inset-1.5 border border-slate-900 rounded border-dashed" />
+                        
+                        {/* Robot visual */}
+                        <div className="relative w-full h-full flex flex-col items-center justify-center">
+                          <img
+                            src={`/robots/${formData.selectedRobot}.png`}
+                            alt={formData.selectedRobot}
+                            className="w-20 h-20 object-contain drop-shadow-[0_0_8px_rgba(0,255,255,0.4)] z-10 filter brightness-105"
+                          />
+                          <div className="absolute inset-x-0 bottom-0 text-center font-mono text-[7px] text-[#00ffff]/40 tracking-wider mt-1 select-none z-10">
+                            UNIT: {formData.selectedRobot.toUpperCase()}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="mt-8 flex gap-3 w-full">
-                    <button
-                      onClick={() => window.print()}
-                      className="flex-1 py-2.5 bg-slate-900 border border-slate-800 text-white font-rajdhani font-bold text-xs tracking-widest rounded hover:bg-slate-800 transition-colors uppercase cursor-pointer"
-                    >
-                      Print Pass
-                    </button>
-                    <button
-                      onClick={() => setRegisterOpen(false)}
-                      className="flex-1 py-2.5 bg-[#00ffff] text-[#050816] font-rajdhani font-bold text-xs tracking-widest rounded shadow hover:shadow-lg transition-all uppercase cursor-pointer"
-                    >
-                      Complete
-                    </button>
-                  </div>
+                    <div className="mt-8 flex gap-3 w-full">
+                      <button
+                        onClick={() => window.print()}
+                        className="flex-1 py-2.5 bg-slate-900 border border-slate-800 text-white font-rajdhani font-bold text-xs tracking-widest rounded hover:bg-slate-800 transition-colors uppercase cursor-pointer"
+                      >
+                        Print Pass
+                      </button>
+                      <button
+                        onClick={() => setRegisterOpen(false)}
+                        className="flex-1 py-2.5 bg-[#00ffff] text-[#050816] font-rajdhani font-bold text-xs tracking-widest rounded shadow hover:shadow-lg transition-all uppercase cursor-pointer"
+                      >
+                        Complete
+                      </button>
+                    </div>
+                  </motion.div>
                 </div>
               )}
             </motion.div>

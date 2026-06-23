@@ -6,7 +6,7 @@ const TIMELINE_STEPS = [
   {
     phase: "PHASE 01",
     title: "Registration Opens",
-    date: "OCTOBER 15, 2025",
+    date: "JULY 15, 2026",
     description: "Form your teams, draft technical blueprints, and submit robot CAD specifications. Early registration grants access to official simulator packages.",
     icon: Users,
     color: "#00ffff",
@@ -14,7 +14,7 @@ const TIMELINE_STEPS = [
   {
     phase: "PHASE 02",
     title: "Qualification Round",
-    date: "DECEMBER 05, 2025",
+    date: "SEP 01, 2026",
     description: "Virtual AI testing and arena compliance certification. Teams must pass core locomotion, weapon safety loops, and wireless link sanity audits.",
     icon: Cpu,
     color: "#7b61ff",
@@ -22,7 +22,7 @@ const TIMELINE_STEPS = [
   {
     phase: "PHASE 03",
     title: "Regional Battles",
-    date: "JANUARY 20, 2026",
+    date: "OCT 10, 2026",
     description: "Zonal offline arenas in metropolitan clusters. Double-elimination format, leading to top regional contenders advancing to the finals pool.",
     icon: Swords,
     color: "#00ffff",
@@ -30,7 +30,7 @@ const TIMELINE_STEPS = [
   {
     phase: "PHASE 04",
     title: "Semi Finals",
-    date: "FEBRUARY 18, 2026",
+    date: "NOV 10, 2026",
     description: "The elite 16 custom-built battle robots face off under standard double-elimination parameters in a high-intensity closed stadium format.",
     icon: Zap,
     color: "#7b61ff",
@@ -38,7 +38,7 @@ const TIMELINE_STEPS = [
   {
     phase: "PHASE 05",
     title: "National Championship",
-    date: "MARCH 10, 2026",
+    date: "DEC 06, 2026",
     description: "Main stadium combats with fully active hazard gates, pit traps, and aerial drone intervention zones. National broadcast coverage starts.",
     icon: Swords,
     color: "#00ffff",
@@ -46,7 +46,7 @@ const TIMELINE_STEPS = [
   {
     phase: "PHASE 06",
     title: "Grand Finale",
-    date: "MARCH 28, 2026",
+    date: "DEC 23, 2026",
     description: "The ultimate automated warfare showdown. Winners take home the ROBO WARS championship trophy, elite industry sponsorships, and the grand prize pool.",
     icon: Trophy,
     color: "#ffb700",
