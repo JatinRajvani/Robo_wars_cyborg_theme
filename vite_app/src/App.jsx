@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Swords, Cpu, Trophy, Play, Download, Menu, X, 
@@ -12,65 +12,6 @@ import AnimatedCounter from "./components/AnimatedCounter";
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [videoPlaying, setVideoPlaying] = useState(false);
-  const playerRef = useRef(null);
-
-  useEffect(() => {
-    const initPlayer = () => {
-      if (playerRef.current) return;
-      playerRef.current = new window.YT.Player("yt-player", {
-        videoId: "SY81p7kTOP8",
-        playerVars: {
-          autoplay: 1,
-          mute: 1,
-          loop: 1,
-          playlist: "SY81p7kTOP8",
-          controls: 0,
-          showinfo: 0,
-          rel: 0,
-          playsinline: 1,
-          iv_load_policy: 3,
-          disablekb: 1,
-          enablejsapi: 1,
-        },
-        events: {
-          onReady: (event) => {
-            event.target.mute();
-            event.target.playVideo();
-          },
-          onStateChange: (event) => {
-            if (event.data === window.YT.PlayerState.PLAYING) {
-              setVideoPlaying(true);
-            }
-          },
-        },
-      });
-    };
-
-    if (window.YT && window.YT.Player) {
-      initPlayer();
-    } else {
-      const prevCallback = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = () => {
-        if (prevCallback) prevCallback();
-        initPlayer();
-      };
-
-      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
-        const tag = document.createElement("script");
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName("script")[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-      }
-    }
-
-    return () => {
-      if (playerRef.current && typeof playerRef.current.destroy === "function") {
-        playerRef.current.destroy();
-        playerRef.current = null;
-      }
-    };
-  }, []);
   const [trailerOpen, setTrailerOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [selectedArenaPart, setSelectedArenaPart] = useState("center");
@@ -237,13 +178,12 @@ export default function App() {
       <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         {/* Background Cinematic Video Loop */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <div
-            className={`w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-1000 border-0 overflow-hidden ${
-              videoPlaying ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <div id="yt-player" className="w-full h-full" />
-          </div>
+          <iframe
+            src="https://www.youtube.com/embed/SY81p7kTOP8?autoplay=1&mute=1&loop=1&playlist=SY81p7kTOP8&controls=0&showinfo=0&rel=0&playsinline=1&iv_load_policy=3&disablekb=1&enablejsapi=1"
+            className="w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            title="Robo Wars 2026 Background Trailer"
+          />
           {/* Dark cinematic overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#050816]/75 via-[#050816]/65 to-[#050816]" />
           <div className="absolute inset-0 bg-[#050816]/20 backdrop-blur-[1px]" />
