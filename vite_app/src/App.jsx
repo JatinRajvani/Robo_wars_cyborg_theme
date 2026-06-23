@@ -177,16 +177,17 @@ export default function App() {
       {/* 3. HERO SECTION */}
       <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         {/* Background Cinematic Video Loop */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
           <iframe
             src="https://www.youtube.com/embed/SY81p7kTOP8?autoplay=1&mute=1&loop=1&playlist=SY81p7kTOP8&controls=0&showinfo=0&rel=0&playsinline=1&iv_load_policy=3&disablekb=1&enablejsapi=1"
-            className="w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0"
+            className="w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] absolute top-1/2 left-1/2 border-0 pointer-events-none select-none"
+            style={{ transform: "translate3d(-50%, -50%, 0)", willChange: "transform" }}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             title="Robo Wars 2026 Background Trailer"
           />
           {/* Dark cinematic overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#050816]/75 via-[#050816]/65 to-[#050816]" />
-          <div className="absolute inset-0 bg-[#050816]/20 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-[#050816]/35" />
           {/* Subtle grid backdrop overlay */}
           <div className="absolute inset-0 cyber-grid-fine opacity-20 pointer-events-none" />
         </div>
